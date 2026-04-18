@@ -137,7 +137,7 @@ what the average prices are ranging from **low**, **mid**, and **high**.
     - This is the code that will refresh both detailed and summary tables and 
 perform a raw data extraction to the detailed table.
 
-
+~~~
     CREATE OR REPLACE PROCEDURE refresh_summary_and_detailed_tables()
     LANGUAGE plpgsql
     AS $$
@@ -154,7 +154,7 @@ perform a raw data extraction to the detailed table.
 
     END;
     $$;
-
+~~~
 
 - ### M
     - The job scheduling will be using a .bat file to store the command line for PostgreSQL 

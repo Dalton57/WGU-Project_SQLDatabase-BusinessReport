@@ -155,6 +155,7 @@ what the average prices are ranging from **low**, **mid**, and **high**.
     END;
     $$;
 
+
 - ### M
     - The job scheduling will be using a .bat file to store the command line for PostgreSQL 
   that will execute the procedure and Task Scheduler to periodically execute the 

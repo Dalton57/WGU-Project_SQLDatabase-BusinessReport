@@ -135,25 +135,25 @@ what the average prices are ranging from **low**, **mid**, and **high**.
 
 - ### L
     - This is the code that will refresh both detailed and summary tables and 
-  perform a raw data extraction to the detailed table.
+perform a raw data extraction to the detailed table.
 
 
-      CREATE OR REPLACE PROCEDURE refresh_summary_and_detailed_tables()
-      LANGUAGE plpgsql
-      AS $$
-      BEGIN
-          TRUNCATE TABLE summary_table;
-          TRUNCATE TABLE detailed_table;
-      
-          INSERT INTO detailed_table (film_id, film_title, payment_amount)
-          SELECT film.film_id, film.title, payment.amount
-          FROM film
-          JOIN inventory ON film.film_id = inventory.film_id
-          JOIN rental ON inventory.inventory_id = rental.inventory_id
-          JOIN payment ON rental.rental_id = payment.rental_id;
-  
-      END;
-      $$;
+    CREATE OR REPLACE PROCEDURE refresh_summary_and_detailed_tables()
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        TRUNCATE TABLE summary_table;
+        TRUNCATE TABLE detailed_table;
+    
+        INSERT INTO detailed_table (film_id, film_title, payment_amount)
+        SELECT film.film_id, film.title, payment.amount
+        FROM film
+        JOIN inventory ON film.film_id = inventory.film_id
+        JOIN rental ON inventory.inventory_id = rental.inventory_id
+        JOIN payment ON rental.rental_id = payment.rental_id;
+
+    END;
+    $$;
 
 
 - ### M

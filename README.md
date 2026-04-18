@@ -42,7 +42,7 @@ what the average prices are ranging from **low**, **mid**, and **high**.
 - ### H
     - This code is for the transformation of the payment_amount field to price tiers previously mentioned in **E**:
 
-    
+~~~    
     CREATE OR REPLACE FUNCTION price_tier(avg_sale_per_unit NUMERIC)
     RETURNS TEXT AS $$
     DECLARE
@@ -58,11 +58,12 @@ what the average prices are ranging from **low**, **mid**, and **high**.
         RETURN tier; 
     END;
     $$ LANGUAGE plpgsql;
+~~~
 
 - ### I
     - This is the code used to create the detailed and summary tables:
 
-
+~~~
     CREATE TABLE detailed_table (
         film_id INT,
         film_title TEXT,
@@ -76,23 +77,25 @@ what the average prices are ranging from **low**, **mid**, and **high**.
         avg_sale_per_unit NUMERIC (5, 2),
         price_tier CHAR(4)
         );
+~~~
 
 - ### J
     - This is the code used to extract the raw data needed for the detailed table:
 
-
+~~~
     INSERT INTO detailed_table (film_id, film_title, payment_amount)
     SELECT film.film_id, film.title, payment.amount
     FROM film
     JOIN inventory ON film.film_id = inventory.film_id
     JOIN rental ON inventory.inventory_id = rental.inventory_id
     JOIN payment ON rental.rental_id = payment.rental_id;
+~~~
 
 - ### K
     - This is the code for the function and trigger on the detailed table that will continually update 
   the summary table as data is added to the detailed table:
 
-
+~~~
     CREATE OR REPLACE FUNCTION update_summary_from_detailed()
     RETURNS TRIGGER AS $$
     BEGIN
@@ -132,6 +135,7 @@ what the average prices are ranging from **low**, **mid**, and **high**.
     AFTER INSERT ON detailed_table
     FOR EACH ROW
     EXECUTE FUNCTION update_summary_from_detailed();
+~~~
 
 - ### L
     - This is the code that will refresh both detailed and summary tables and 
@@ -162,7 +166,8 @@ perform a raw data extraction to the detailed table.
   command daily, weekly, monthly, or as needed. This will only be able to work on Windows machines 
   to utilize the job scheduling. This is the .bat file command that will be used:
 
-
+~~~
     @echo off
     SET PGPASSWORD=(yourpassword)
     “C: \Program FIles\PostgreSQL\13\bin\psql.exe” -U postgres -d dvdrental -h localhost -c "CALL refresh_summary_and_detailed_tables();"
+~~~
